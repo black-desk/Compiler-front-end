@@ -6,7 +6,7 @@ import lexer.Word;
 public class Type extends Word {
     public int width = 0;
 
-    public Type(String s, int tag, int v) {
+    public Type(String s, int tag, int w) {
         super(s, tag);
         width = w;
     }

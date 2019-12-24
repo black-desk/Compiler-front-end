@@ -1,5 +1,6 @@
 package symbols;
 
+import inter.Id;
 import lexer.Token;
 
 import java.util.Hashtable;
