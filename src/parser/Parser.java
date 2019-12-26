@@ -272,28 +272,30 @@ public class Parser {
                 return x;
         }
     }
-    Access offset(Id a) throws IOException{
+
+    Access offset(Id a) throws IOException {
         Expr i;
         Expr w;
-        Expr t1,t2;
+        Expr t1, t2;
         Expr loc;
         Type type = a.type;
         match('[');
-        i = bool();match(']');
-        type = ((Array)type).of;
+        i = bool();
+        match(']');
+        type = ((Array) type).of;
         w = new Constant(type.width);
-        t1 = new Arith(new Token('*'),i,w);
+        t1 = new Arith(new Token('*'), i, w);
         loc = t1;
-        while (look.tag=='['){
+        while (look.tag == '[') {
             match('[');
             i = bool();
             match(']');
-            type = ((Array)type).of;
+            type = ((Array) type).of;
             w = new Constant(type.width);
-            t1 = new Arith(new Token('*'),i,w);
-            t2 = new Arith(new Token('+'),loc,t1);
+            t1 = new Arith(new Token('*'), i, w);
+            t2 = new Arith(new Token('+'), loc, t1);
             loc = t2;
         }
-        return new Access(a,loc,type);
+        return new Access(a, loc, type);
     }
 }
