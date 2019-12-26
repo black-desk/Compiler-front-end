@@ -1,5 +1,7 @@
 package lexer;
 
+import symbols.Type;
+
 import java.io.IOException;
 import java.util.Hashtable;
 

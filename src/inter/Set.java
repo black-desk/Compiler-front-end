@@ -22,7 +22,7 @@ public class Set extends Stmt {
         }
     }
 
-    public void grn(int b, int a) {
+    public void gen(int b, int a) {
         emit(id.toString() + " = " + expr.gen().toString());
     }
 }
