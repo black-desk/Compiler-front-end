@@ -29,7 +29,7 @@ public class Parser {
 
     void match(int t) throws IOException {
         if (look.tag == t) move();
-        else error("synatx error");
+        else error("syntax error");
     }
 
     public void program() throws IOException {
