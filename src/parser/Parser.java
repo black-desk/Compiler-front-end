@@ -61,11 +61,10 @@ public class Parser {
                 Id id = new Id((Word) tok, p, used);
                 top.put(tok, id);
                 used = used + p.width;
-                if(look.tag==';'){
+                if (look.tag == ';') {
                     match(';');
                     break;
-                }
-                else{
+                } else {
                     match(',');
                 }
             }
