@@ -55,12 +55,20 @@ public class Parser {
     void decls() throws IOException {
         while (look.tag == Tag.BASIC) {
             Type p = type();
-            Token tok = look;
-            match(Tag.ID);
-            match(';');
-            Id id = new Id((Word) tok, p, used);
-            top.put(tok, id);
-            used = used + p.width;
+            while (true) {
+                Token tok = look;
+                match(Tag.ID);
+                Id id = new Id((Word) tok, p, used);
+                top.put(tok, id);
+                used = used + p.width;
+                if(look.tag==';'){
+                    match(';');
+                    break;
+                }
+                else{
+                    match(',');
+                }
+            }
         }
     }
 
