@@ -71,7 +71,7 @@ public class Lexer {
                 v = 10 * v + Character.digit(peek, 10);
                 readch();
             } while (Character.isDigit(peek));
-            if (peek != ',') return new Num(v);
+            if (peek != '.') return new Num(v);
             float x = v, d = 10;
             for (; ; ) {
                 readch();

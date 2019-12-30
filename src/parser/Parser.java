@@ -45,7 +45,7 @@ public class Parser {
         match('{');
         Env savedEnv = top;
         top = new Env(top);
-        decls();
+//        decls();
         Stmt s = stmts();
         match('}');
         top = savedEnv;
@@ -90,6 +90,7 @@ public class Parser {
     }
 
     Stmt stmts() throws IOException {
+        if(look.tag==Tag.BASIC) decls();
         if (look.tag == '}') return Stmt.Null;
         else return new Seq(stmt(), stmts());
     }
