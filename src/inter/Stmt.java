@@ -9,6 +9,6 @@ public class Stmt extends Node {
     public void gen(int b, int a) {
     }
 
-    int after = 0;
+    int after = 0, begin = 0;
     public static Stmt Enclosing = Stmt.Null;
 }

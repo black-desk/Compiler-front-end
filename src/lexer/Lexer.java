@@ -20,6 +20,7 @@ public class Lexer {
         reserve(new Word("while", Tag.WHILE));
         reserve(new Word("do", Tag.DO));
         reserve(new Word("break", Tag.BREAK));
+        reserve(new Word("continue", Tag.CONTINUE));
         reserve(Word.Ture);
         reserve(Word.False);
         reserve(Type.Int);
@@ -65,12 +66,13 @@ public class Lexer {
                 if (readch('=')) return Word.ge;
                 else return new Token('>');
         }
-        if (Character.isDigit(peek)) {
+        if (Character.isDigit(peek) || peek == '.') {
             int v = 0;
-            do {
-                v = 10 * v + Character.digit(peek, 10);
-                readch();
-            } while (Character.isDigit(peek));
+            if (peek != '.')
+                do {
+                    v = 10 * v + Character.digit(peek, 10);
+                    readch();
+                } while (Character.isDigit(peek));
             if (peek != '.') return new Num(v);
             float x = v, d = 10;
             for (; ; ) {

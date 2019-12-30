@@ -31,7 +31,7 @@ public class Expr extends Node {
         } else if (t != 0) {
             emit("if " + test + " goto L" + t);
         } else if (f != 0) {
-            emit("if " + test + " goto L" + f);
+            emit("if not " + test + " goto L" + f);
         } else ;
     }
 

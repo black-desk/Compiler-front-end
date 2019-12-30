@@ -20,6 +20,7 @@ public class Do extends Stmt {
     }
 
     public void gen(int b, int a) {
+        begin = b;
         after = a;
         int label = newlabel();
         stmt.gen(b, label);

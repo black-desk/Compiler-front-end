@@ -90,7 +90,7 @@ public class Parser {
     }
 
     Stmt stmts() throws IOException {
-        if(look.tag==Tag.BASIC) decls();
+        if (look.tag == Tag.BASIC) decls();
         if (look.tag == '}') return Stmt.Null;
         else return new Seq(stmt(), stmts());
     }
@@ -143,6 +143,10 @@ public class Parser {
                 match(Tag.BREAK);
                 match(';');
                 return new Break();
+            case Tag.CONTINUE:
+                match(Tag.CONTINUE);
+                match(';');
+                return new Continue();
             case '{':
                 return block();
             default:
@@ -252,6 +256,7 @@ public class Parser {
                 move();
                 x = bool();
                 match(')');
+                return x;
             case Tag.NUM:
                 x = new Constant(look, Type.Int);
                 move();
