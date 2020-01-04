@@ -8,6 +8,11 @@ public class Word extends Token {
         lexeme = s;
     }
 
+    public Word(Word w) {
+        super(w.tag);
+        lexeme = w.lexeme;
+    }
+
     public String toString() {
         return lexeme;
     }

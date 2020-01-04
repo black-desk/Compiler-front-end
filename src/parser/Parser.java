@@ -45,11 +45,10 @@ public class Parser {
         match('{');
         Env savedEnv = top;
         top = new Env(top);
-//        decls();
         Stmt s = stmts();
         match('}');
         top = savedEnv;
-        return s;//TODO ???
+        return s;
     }
 
     void decls() throws IOException {
@@ -58,12 +57,15 @@ public class Parser {
             while (true) {
                 Token tok = look;
                 match(Tag.ID);
-                Id id = new Id((Word) tok, p, used);
+                Id id = new Id(new Word((Word) tok), p, used);
                 top.put(tok, id);
                 used = used + p.width;
                 if (look.tag == ';') {
                     match(';');
                     break;
+                } else if (look.tag == '=') {
+                    match('=');
+
                 } else {
                     match(',');
                 }
