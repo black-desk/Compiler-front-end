@@ -6,7 +6,7 @@ import lexer.Token;
 import java.util.Hashtable;
 
 public class Env {
-    private Hashtable table;
+    public Hashtable table;
     protected Env prev;
 
     public Env(Env n) {

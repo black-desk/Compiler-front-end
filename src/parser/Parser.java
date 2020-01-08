@@ -57,8 +57,11 @@ public class Parser {
             while (true) {
                 Token tok = look;
                 match(Tag.ID);
-                Id id = new Id(new Word((Word) tok), p, used);
-                top.put(tok, id);
+                Id id = new Id((Word) tok, p, used);
+                if (top.table.get(tok) == null)
+                    top.put(tok, id);
+                else
+                    error("redefine of id " + tok.toString());
                 used = used + p.width;
                 if (look.tag == ';') {
                     match(';');
@@ -305,7 +308,11 @@ public class Parser {
             match('[');
             i = bool();
             match(']');
-            type = ((Array) type).of;
+            try {
+                type = ((Array) type).of;
+            } catch (Exception e) {
+                error("this object doesn't have so many dimensions");
+            }
             w = new Constant(type.width);
             t1 = new Arith(new Token('*'), i, w);
             t2 = new Arith(new Token('+'), loc, t1);

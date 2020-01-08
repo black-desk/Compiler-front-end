@@ -12,6 +12,9 @@ public class Id extends Expr {
         super(id, p);
         offset = b;
         key = now++;
-        ((Word) op).lexeme += "(" + key + ")";
+    }
+
+    public String toString() {
+        return ((Word) op).lexeme + "(" + key + ")";
     }
 }
