@@ -1,0 +1,71 @@
+{
+  int[4][4] dp;
+  int k;
+  k = 0;
+  while(k<4){
+    int i;
+    i = 0;
+    while(i<4){
+      int j;
+      j = 0;
+      while(j<4){
+        if(dp[i][k]>dp[i][j]) continue;
+        else if(dp[i][j]>dp[i][k]+dp[k][j]){
+          dp[i][j] = dp[i][k]+dp[k][j];
+        }
+      }
+      i=i+1;
+    }
+    k=k+1;
+  }
+}
+L1:   k(1) = 0
+L3:   if not k(1) < 4 goto L2
+L4:	  i(2) = 0
+L5:	  if not i(2) < 4 goto L6
+L7:	  j(3) = 0
+L8:	  if not j(3) < 4 goto L9
+L10:	t1 = i(2) * 16
+	    t2 = k(1) * 4
+	    t3 = t1 + t2
+	    t4 = dp(0) [ t3 ]
+	    t5 = i(2) * 16
+	    t6 = j(3) * 4
+	    t7 = t5 + t6
+	    t8 = dp(0) [ t7 ]
+	    if not t4 > t8 goto L12
+L11:	goto L8
+	    goto L8
+L12:	t9 = i(2) * 16
+	    t10 = j(3) * 4
+	    t11 = t9 + t10
+	    t12 = dp(0) [ t11 ]
+      t13 = i(2) * 16
+      t14 = k(1) * 4
+      t15 = t13 + t14
+      t16 = dp(0) [ t15 ]
+      t17 = k(1) * 16
+      t18 = j(3) * 4
+      t19 = t17 + t18
+      t20 = dp(0) [ t19 ]
+      t21 = t16 + t20
+      if not t12 > t21 goto L8
+L13:	t22 = i(2) * 16
+      t23 = j(3) * 4
+      t24 = t22 + t23
+      t25 = i(2) * 16
+      t26 = k(1) * 4
+      t27 = t25 + t26
+      t28 = dp(0) [ t27 ]
+      t29 = k(1) * 16
+      t30 = j(3) * 4
+      t31 = t29 + t30
+      t32 = dp(0) [ t31 ]
+      t33 = t28 + t32
+      dp(0) [ t24 ] = t33
+      goto L8
+L9: 	i(2) = i(2) + 1
+	    goto L5
+L6:	  k(1) = k(1) + 1
+	    goto L3
+L2:

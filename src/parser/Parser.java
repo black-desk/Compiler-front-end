@@ -171,7 +171,7 @@ public class Parser {
         } else {
             Access x = offset(id);
             match('=');
-            stmt = new SetElem(x, bool());//TODO 为什么这里两个都是bool
+            stmt = new SetElem(x, bool());
         }
         match(';');
         return stmt;
@@ -300,7 +300,11 @@ public class Parser {
         match('[');
         i = bool();
         match(']');
-        type = ((Array) type).of;
+        try {
+            type = ((Array) type).of;
+        } catch (Exception e) {
+            error("this object doesn't have so many dimensions");
+        }
         w = new Constant(type.width);
         t1 = new Arith(new Token('*'), i, w);
         loc = t1;
