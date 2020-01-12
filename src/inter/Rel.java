@@ -11,6 +11,7 @@ public class Rel extends Logical {
 
     public Type check(Type p1, Type p2) {// TODO 没懂
         if (p1 instanceof Array || p2 instanceof Array) return null;
+        else if (Type.numeric(p1) && Type.numeric(p2)) return Type.Bool;
         else if (p1 == p2) return Type.Bool;
         else return null;
     }

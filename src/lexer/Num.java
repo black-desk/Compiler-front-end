@@ -8,7 +8,7 @@ public class Num extends Token {
         value = v;
     }
 
-    public String toString(){
-        return ""+ value;
+    public String toString() {
+        return "" + value;
     }
 }

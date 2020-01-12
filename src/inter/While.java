@@ -20,6 +20,7 @@ public class While extends Stmt {
     }
 
     public void gen(int b, int a) {
+        begin = b;
         after = a;
         expr.jumping(0, a);
         int label = newlabel();

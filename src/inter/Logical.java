@@ -6,7 +6,7 @@ import symbols.Type;
 public class Logical extends Expr {
     public Expr expr1, expr2;
 
-    Logical(Token tok, Expr x1, Expr x2) {//TODO 这里龙书代码没加public,应该是错了
+    Logical(Token tok, Expr x1, Expr x2) {
         super(tok, null);
         expr1 = x1;
         expr2 = x2;

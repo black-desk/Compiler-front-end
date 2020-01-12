@@ -29,7 +29,7 @@ public class Parser {
 
     void match(int t) throws IOException {
         if (look.tag == t) move();
-        else error("synatx error");
+        else error("syntax error");
     }
 
     public void program() throws IOException {
@@ -45,22 +45,34 @@ public class Parser {
         match('{');
         Env savedEnv = top;
         top = new Env(top);
-        decls();
         Stmt s = stmts();
         match('}');
         top = savedEnv;
-        return s;//TODO ???
+        return s;
     }
 
     void decls() throws IOException {
         while (look.tag == Tag.BASIC) {
             Type p = type();
-            Token tok = look;
-            match(Tag.ID);
-            match(';');
-            Id id = new Id((Word) tok, p, used);
-            top.put(tok, id);
-            used = used + p.width;
+            while (true) {
+                Token tok = look;
+                match(Tag.ID);
+                Id id = new Id((Word) tok, p, used);
+                if (top.table.get(tok) == null)
+                    top.put(tok, id);
+                else
+                    error("redefine of id " + tok.toString());
+                used = used + p.width;
+                if (look.tag == ';') {
+                    match(';');
+                    break;
+                } else if (look.tag == '=') {
+                    match('=');
+
+                } else {
+                    match(',');
+                }
+            }
         }
     }
 
@@ -83,6 +95,7 @@ public class Parser {
     }
 
     Stmt stmts() throws IOException {
+        if (look.tag == Tag.BASIC) decls();
         if (look.tag == '}') return Stmt.Null;
         else return new Seq(stmt(), stmts());
     }
@@ -135,6 +148,10 @@ public class Parser {
                 match(Tag.BREAK);
                 match(';');
                 return new Break();
+            case Tag.CONTINUE:
+                match(Tag.CONTINUE);
+                match(';');
+                return new Continue();
             case '{':
                 return block();
             default:
@@ -154,7 +171,7 @@ public class Parser {
         } else {
             Access x = offset(id);
             match('=');
-            stmt = new SetElem(x, bool());//TODO 为什么这里两个都是bool
+            stmt = new SetElem(x, bool());
         }
         match(';');
         return stmt;
@@ -244,6 +261,7 @@ public class Parser {
                 move();
                 x = bool();
                 match(')');
+                return x;
             case Tag.NUM:
                 x = new Constant(look, Type.Int);
                 move();
@@ -272,28 +290,38 @@ public class Parser {
                 return x;
         }
     }
-    Access offset(Id a) throws IOException{
+
+    Access offset(Id a) throws IOException {
         Expr i;
         Expr w;
-        Expr t1,t2;
+        Expr t1, t2;
         Expr loc;
         Type type = a.type;
         match('[');
-        i = bool();match(']');
-        type = ((Array)type).of;
+        i = bool();
+        match(']');
+        try {
+            type = ((Array) type).of;
+        } catch (Exception e) {
+            error("this object doesn't have so many dimensions");
+        }
         w = new Constant(type.width);
-        t1 = new Arith(new Token('*'),i,w);
+        t1 = new Arith(new Token('*'), i, w);
         loc = t1;
-        while (look.tag=='['){
+        while (look.tag == '[') {
             match('[');
             i = bool();
             match(']');
-            type = ((Array)type).of;
+            try {
+                type = ((Array) type).of;
+            } catch (Exception e) {
+                error("this object doesn't have so many dimensions");
+            }
             w = new Constant(type.width);
-            t1 = new Arith(new Token('*'),i,w);
-            t2 = new Arith(new Token('+'),loc,t1);
+            t1 = new Arith(new Token('*'), i, w);
+            t2 = new Arith(new Token('+'), loc, t1);
             loc = t2;
         }
-        return new Access(a,loc,type);
+        return new Access(a, loc, type);
     }
 }
